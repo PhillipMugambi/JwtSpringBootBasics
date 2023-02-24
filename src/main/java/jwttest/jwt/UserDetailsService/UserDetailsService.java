@@ -1,7 +1,7 @@
 package jwttest.jwt.UserDetailsService;
 
-import jwttest.jwt.Repositories.UserRepository;
-import jwttest.jwt.models.User;
+import jwttest.jwt.Repositories.CustomerRepository;
+import jwttest.jwt.models.Customer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Customer customer = customerRepository. findCusomerByEmail(email);
 
-        return new User(user.getId(),user.getUsername(),user.getPassword(),user.getEmail(),user.getRole());
+        return customer; //(customer.getId(),customer.getUsername(),customer.getPassword(),customer.getEmail(),customer.getRole());
     }
 }

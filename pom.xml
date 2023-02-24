@@ -8,11 +8,11 @@
         <version>3.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>jwtTest</groupId>
-    <artifactId>JwT</artifactId>
+    <groupId>Payments</groupId>
+    <artifactId>PaymentsApp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>JwT</name>
-    <description>JwT</description>
+    <name>PaymentsApp</name>
+    <description>PaymentsApp</description>
     <properties>
         <java.version>17</java.version>
     </properties>

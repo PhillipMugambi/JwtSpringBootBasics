@@ -1,6 +1,6 @@
 //package jwttest.jwt.UserDetailsService;
 //import jwttest.jwt.models.Role;
-//import jwttest.jwt.models.User;
+//import jwttest.jwt.models.Customer;
 //import lombok.Builder;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.security.core.GrantedAuthority;
@@ -14,9 +14,9 @@
 //@Component
 //@RequiredArgsConstructor
 //public class UserDetails {
-//   User user = new User();
+//   Customer user = new Customer();
 //   private Role role;
-//    public UserDetails(User user1) {
+//    public UserDetails(Customer user1) {
 //        this.user=user1;
 //    }
 //

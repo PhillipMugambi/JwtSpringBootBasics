@@ -3,10 +3,9 @@ package jwttest.jwt.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jwttest.jwt.Repositories.UserRepository;
-import jwttest.jwt.models.User;
+import jwttest.jwt.Repositories.CustomerRepository;
+import jwttest.jwt.models.Customer;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,7 +24,7 @@ public class JwtTokenUtil {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-private UserRepository userRepository;
+private CustomerRepository customerRepository;
     public String getUserId(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(secret)
@@ -67,9 +66,9 @@ private UserRepository userRepository;
 //        return createToken(claims, username);
 //    }
 
-    public String createToken(User user) {
+    public String createToken(Customer customer) {
         Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder().setClaims(claims).setSubject(user.getUsername()).
+        return Jwts.builder().setClaims(claims).setSubject(customer.getUsername()).
                 setIssuedAt(new Date(System.currentTimeMillis()))
                 //.setExpiration(new Date(System.currentTimeMillis() + 300000)) //5 minutes
                 .setExpiration(new Date(System.currentTimeMillis() + 1800000)) //30 minutes
