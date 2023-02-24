@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Slf4j
@@ -39,12 +38,8 @@ public class AuthenticationService {
                         getPassword())).ocupation(request.getOcupation())
         .build();
         customerRepository.save(customer);
-        //var gentoken=jwtTokenUtil.createToken(user);
-        //return new AuthenticationResponse()//.builder().token(gentoken)
-               //.build();
         return new AuthenticationResponse("Customer saved");
     }
-
     public AuthenticationResponse  login(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(), request.getPassword()
@@ -55,12 +50,8 @@ public class AuthenticationService {
         if (user != null) {
             log.info("user found");
             gentoken = jwtTokenUtil.createToken(user);
-
-
         }
         return new AuthenticationResponse(gentoken);//.builder()
-                //.token(gentoken)
-                //.build();
     }
     public List<Customer> getUsers() {
         return customerRepository.findAll();

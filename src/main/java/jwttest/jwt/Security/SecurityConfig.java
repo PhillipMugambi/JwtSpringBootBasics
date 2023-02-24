@@ -17,30 +17,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.Filter;
 import java.util.logging.Logger;
 
 @Configuration
 @EnableWebSecurity
-//@AllArgsConstructor
 public class SecurityConfig {
     private static final Logger LOGGER = Logger.getLogger(SecurityConfig.class.getName());
-    //    @Autowired
-//    private UserServiceImpl userService;
-//    private CustomUersDetails customUersDetails;
     @Autowired
     private UserDetailsService detailsService;
 
     @Autowired
     private jwtTokenFilter jwtTokenFilter;
-    //private final com.example.LoanApp2.Filter.jwtTokenFilter jwtTokenFilter;
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(passwordEncoderD());
-//    }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
@@ -53,7 +40,6 @@ public class SecurityConfig {
         authenticationProvider.setUserDetailsService(detailsService);
         return authenticationProvider;
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -65,7 +51,6 @@ public class SecurityConfig {
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
     @Bean //spring bean
     public PasswordEncoder passwordEncoderD() {
         return new BCryptPasswordEncoder(); //return if coverted to shaa

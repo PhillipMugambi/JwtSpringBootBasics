@@ -34,7 +34,6 @@ public class Customer implements UserDetails {
     private String email;
     private String password;
     private String deviceId;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
