@@ -12,18 +12,23 @@ import java.util.List;
 public class AuthController {
     private final AuthenticationService authenticationService;
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest Request) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
 
-        return ResponseEntity.ok(authenticationService.login(Request));
+        return ResponseEntity.ok(authenticationService.login(request));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> Register(@RequestBody RegisterRequest Request) {
-        return ResponseEntity.ok(authenticationService.register(Request));
+    public ResponseEntity<AuthenticationResponse> Register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authenticationService.register(request));
     }
     @GetMapping("/getusers")
     public List<Customer> findusers(){
         return authenticationService.getUsers();
     }
+    @PostMapping("deleteUser")
+        public ResponseEntity deleteUser(@RequestBody DeleteCusomerRequest request){
+        return ResponseEntity.ok(authenticationService.deleteUser(request));
+        }
+
 }
 
