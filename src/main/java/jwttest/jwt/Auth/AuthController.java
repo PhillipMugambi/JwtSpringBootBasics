@@ -25,10 +25,13 @@ public class AuthController {
     public List<Customer> findusers(){
         return authenticationService.getUsers();
     }
-    @PostMapping("deleteUser")
+    @PostMapping("DeleteUser")
         public ResponseEntity deleteUser(@RequestBody DeleteCusomerRequest request){
         return ResponseEntity.ok(authenticationService.deleteUser(request));
         }
-
+    @PostMapping("DeleteUser")
+    public ResponseEntity deleteAllUsers(){
+        return ResponseEntity.ok(authenticationService.deleteAllUsers());
+    }
 }
 

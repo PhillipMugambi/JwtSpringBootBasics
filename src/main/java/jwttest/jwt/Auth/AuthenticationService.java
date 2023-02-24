@@ -62,4 +62,9 @@ public class AuthenticationService {
             customerRepository.deleteCustomerByEmail(customeremail);
             return new AuthenticationResponse("Customer Deleted");
     }
+
+    public AuthenticationResponse deleteAllUsers() {
+        customerRepository.deleteAll();
+        return new AuthenticationResponse("Customers Deleted");
+    }
 }
