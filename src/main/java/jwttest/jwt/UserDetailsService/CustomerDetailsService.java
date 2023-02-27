@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class CustomerDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     private final CustomerRepository customerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Customer customer = customerRepository. findCusomerByEmail(email);
+        Customer customer = customerRepository. findCustomerByEmail(email);
 
         return customer;
     }

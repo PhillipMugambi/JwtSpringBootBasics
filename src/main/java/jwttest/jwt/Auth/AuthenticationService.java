@@ -14,12 +14,13 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+
 public class AuthenticationService {
     private  final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil ;
     private final AuthenticationManager authenticationManager;
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) {;
  Customer customerObj = new Customer();
         var customer= customerObj.builder().
                 email(request.getEmail())
@@ -41,10 +42,12 @@ public class AuthenticationService {
         return new AuthenticationResponse("Customer saved");
     }
     public AuthenticationResponse  login(AuthenticationRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getEmail(), request.getPassword()
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),
+                        request.getPassword()
         ));
-        var user = customerRepository.findCusomerByEmail(request.getEmail());
+
+
+        var user = customerRepository.findCustomerByEmail(request.getEmail());
         System.out.println("user is "+ user);
         var gentoken = "";
         if (user != null) {
@@ -57,12 +60,11 @@ public class AuthenticationService {
         return customerRepository.findAll();
     }
 
-    public AuthenticationResponse deleteUser(DeleteCusomerRequest request) {
-        var customeremail= request.getEmail();
-            customerRepository.deleteCustomerByEmail(customeremail);
+    public AuthenticationResponse deleteUser(DeleteCustomerRequest request) {
+        String customeremail= request.getEmail();
+        customerRepository.findCustomerByEmail(customeremail);
             return new AuthenticationResponse("Customer Deleted");
     }
-
     public AuthenticationResponse deleteAllUsers() {
         customerRepository.deleteAll();
         return new AuthenticationResponse("Customers Deleted");

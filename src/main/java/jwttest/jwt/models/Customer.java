@@ -6,10 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.management.relation.Role;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,7 +24,8 @@ import java.util.Collection;
 @Builder
 public class Customer implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
+            (strategy = GenerationType.AUTO)
     private Long id;
 
     private Timestamp created_at;
@@ -36,7 +42,8 @@ public class Customer implements UserDetails {
     private String deviceId;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority(getOcupation().toString()))) {
+        };
     }
 
     @Override

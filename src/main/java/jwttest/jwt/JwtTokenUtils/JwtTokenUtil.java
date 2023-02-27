@@ -3,15 +3,21 @@ package jwttest.jwt.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import jwttest.jwt.Repositories.CustomerRepository;
 import jwttest.jwt.models.Customer;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import static org.apache.coyote.http11.Constants.a;
+
 @Service
 public class JwtTokenUtil {
    // UserServiceImpl userServiceImpl;
@@ -21,29 +27,17 @@ public class JwtTokenUtil {
     //private final String jwtSecret = "yBKrn1G0b7cY";
     private final String jwtIssuer = "deliverance.com";  //https://passwordsgenerator.net/
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
 private CustomerRepository customerRepository;
-    public String getUserId(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secret)
-
-                .parseClaimsJws(token)
-                .getBody();
-        //return claims.getSubject().split(",")[0];
-        return claims.getSubject();
+    private Key getsignInKey(){
+byte[] keyBytes= Decoders.BASE64.decode(secret);
+return Keys.hmacShaKeyFor(keyBytes);
     }
-    public String getUsername(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secret)
-
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getSubject();
-        // return claims.getSubject().split(",")[1];
+    public String extractUsername(String token){
+        return extractClaim(token,Claims::getSubject);
     }
-
+    public String extractOccupation(String token){
+        return extractClaim(token,Claims::getAudience);
+    }
 
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
@@ -54,35 +48,28 @@ private CustomerRepository customerRepository;
         return claimsResolver.apply(claims);
     }
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(getsignInKey())
+                .build().parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
-
-//    public String generateToken(String username) {
-//        Map<String, Object> claims = new HashMap<>();
-//        return createToken(claims, username);
-//    }
-
     public String createToken(Customer customer) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder().setClaims(claims).setSubject(customer.getUsername()).
                 setIssuedAt(new Date(System.currentTimeMillis()))
-                //.setExpiration(new Date(System.currentTimeMillis() + 300000)) //5 minutes
                 .setExpiration(new Date(System.currentTimeMillis() + 1800000)) //30 minutes
                 .setIssuedAt(new Date())
-
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .signWith(getsignInKey(),SignatureAlgorithm.HS256).compact();
     }
-
     public Boolean validateToken(String token, UserDetails  userDetails) {
 
         final String username = extractUsername(token);
-        //throw a 401 error to show token has expired
+       // throw a 401 error to show token has expired
         if(isTokenExpired(token)) throw new RuntimeException("Token has expired");//throw a 401 error to show token has expired
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
 

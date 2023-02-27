@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DeleteCusomerRequest {
+public class DeleteCustomerRequest {
     private String email;
 }

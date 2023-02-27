@@ -13,7 +13,6 @@ public class AuthController {
     private final AuthenticationService authenticationService;
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
-
         return ResponseEntity.ok(authenticationService.login(request));
     }
 
@@ -26,11 +25,13 @@ public class AuthController {
         return authenticationService.getUsers();
     }
     @PostMapping("DeleteUser")
-        public ResponseEntity deleteUser(@RequestBody DeleteCusomerRequest request){
+        public ResponseEntity <AuthenticationResponse>deleteUser(@RequestBody DeleteCustomerRequest request){
+        //System.out.println(request.toString());
         return ResponseEntity.ok(authenticationService.deleteUser(request));
         }
-    @PostMapping("DeleteUser")
+    @PostMapping("DeleteUsers")
     public ResponseEntity deleteAllUsers(){
+
         return ResponseEntity.ok(authenticationService.deleteAllUsers());
     }
 }
